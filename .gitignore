@@ -1,0 +1,26 @@
+# Per-checkout secret shared by the app and its service (scripts make it)
+app/js/local-key.js
+
+# Your settings and anything certificate-related
+scripts/tizen-env.sh
+*.p12
+*.pwd
+*cert-password*
+.glass-home-secrets/
+
+# Your own logo source written by scripts/use-logo.sh
+assets/logo-current-1024.png
+
+# Build output
+app/.buildResult/
+dist/
+*.wgt
+
+# Dev and tool output
+dev/tmp/
+preview/
+photos/
+state/
+__pycache__/
+node_modules/
+.DS_Store

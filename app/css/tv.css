@@ -575,9 +575,9 @@ html.lite #wx-week {
 }
 .step {
   display: flex;
-  gap: 26px;
   align-items: flex-start;
 }
+.step > * + * { margin-left: 26px; }  /* no flex gap before Chrome 84 (2018-2020 TVs) */
 .step-num {
   flex: none;
   width: 52px;
@@ -619,9 +619,9 @@ html.lite #wx-week {
 }
 .panel-buttons {
   display: flex;
-  gap: 22px;
   margin-top: 34px;
 }
+.panel-buttons > * + * { margin-left: 22px; }  /* no flex gap before Chrome 84 (2018-2020 TVs) */
 .pbtn {
   padding: 19px 36px;
   border-radius: 24px;
@@ -640,13 +640,13 @@ html.lite #wx-week {
 .panel-diag {
   display: flex;
   align-items: center;
-  gap: 18px;
   margin-top: 34px;
   padding-top: 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.10);
   font-size: 19px;
   color: rgba(255, 255, 255, 0.46);
 }
+.panel-diag > * + * { margin-left: 18px; }  /* no flex gap before Chrome 84 (2018-2020 TVs) */
 .pbtn.small {
   flex: none;
   padding: 10px 20px;
@@ -688,6 +688,18 @@ html.lite #wx-week {
   z-index: 9;
 }
 #toast.on { opacity: 1; transform: translate(-50%, 0); }
+
+/* ---------- no backdrop-filter (before Chrome 76: 2018-2020 TVs) ---------- */
+/* No blur behind the glass, so make it darker to keep text readable. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root {
+    --glass: rgba(28, 28, 30, 0.66);
+    --glass-strong: rgba(28, 28, 30, 0.84);
+  }
+  #wx-week { background: rgba(28, 28, 30, 0.58); }
+  #panel { background: rgba(28, 28, 30, 0.86); }
+  .tile .play { background: rgba(0, 0, 0, 0.62); }
+}
 
 /* ---------- states ---------- */
 html.paused *, html.paused *::before, html.paused *::after { animation-play-state: paused !important; }

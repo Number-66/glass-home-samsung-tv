@@ -56,6 +56,7 @@
       latitude: 0,
       longitude: 0,
       timezone: 'auto',          // or an IANA name such as 'Europe/London'
+      temperatureUnit: 'celsius',   // or 'fahrenheit'
       refreshMs: 30 * 60 * 1000
     },
 

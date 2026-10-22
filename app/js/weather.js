@@ -21,7 +21,8 @@
   if (!cfg || !root) return;
   if (!mockWx && (cfg.enabled === false || (!cfg.latitude && !cfg.longitude))) return;
 
-  var KEY = 'gh.weather.v1';
+  var FAHRENHEIT = cfg.temperatureUnit === 'fahrenheit';
+  var KEY = 'gh.weather.v1' + (FAHRENHEIT ? '.f' : '');   // a unit change never shows the old unit's cache
   var HIDE_AFTER = 12 * 3600 * 1000;    // older than this: hide rather than mislead
   var NOW_STALE = 3 * 3600 * 1000;      // older than this: drop the "now" temperature
   var REFRESH = cfg.refreshMs || 30 * 60 * 1000;
@@ -239,6 +240,7 @@
       '&longitude=' + encodeURIComponent(cfg.longitude) +
       '&current=temperature_2m,weather_code,is_day' +
       '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max' +
+      (FAHRENHEIT ? '&temperature_unit=fahrenheit' : '') +
       '&timezone=' + encodeURIComponent(cfg.timezone || 'auto') + '&forecast_days=8';
   }
 

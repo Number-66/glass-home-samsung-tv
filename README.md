@@ -63,7 +63,7 @@ All in [`app/js/config.js`](app/js/config.js):
 | Setting | What it does |
 |---|---|
 | `apps` | The dock apps, in order. Each is found by its Tizen app ID, then by name. Remove what you don't have. `icon: false` shows a plain name tile. |
-| `weather` | Off until you set `enabled: true`, `latitude` and `longitude` (`place` is the label shown under the forecast). |
+| `weather` | Off until you set `enabled: true`, `latitude` and `longitude` (`place` is the label shown under the forecast; `temperatureUnit: 'fahrenheit'` for °F). |
 | `locale` | Date and time format, e.g. `'en-GB'`; empty uses the TV's. |
 | `ambient` | Screensaver delay. |
 | `night` | Evening dimming hours (24-hour, TV clock). |

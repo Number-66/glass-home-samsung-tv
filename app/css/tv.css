@@ -712,6 +712,18 @@ html.lite #wx-week {
 }
 #toast.on { opacity: 1; transform: translate(-50%, 0); }
 
+/* ---------- no backdrop-filter (before Chrome 76: 2018-2020 TVs) ---------- */
+/* No blur behind the glass, so make it darker to keep text readable. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root {
+    --glass: rgba(28, 28, 30, 0.66);
+    --glass-strong: rgba(28, 28, 30, 0.84);
+  }
+  #wx-week { background: rgba(28, 28, 30, 0.58); }
+  #panel { background: rgba(28, 28, 30, 0.86); }
+  .tile .play { background: rgba(0, 0, 0, 0.62); }
+}
+
 /* ---------- states ---------- */
 html.paused *, html.paused *::before, html.paused *::after { animation-play-state: paused !important; }
 html.still *, html.still *::before, html.still *::after { transition: none !important; animation: none !important; }

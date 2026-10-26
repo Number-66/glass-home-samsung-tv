@@ -430,6 +430,23 @@ html.lite #wx-week {
   letter-spacing: -0.02em;
   text-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
 }
+.tile .input-icon {
+  width: 56%;
+  height: 56%;
+  margin-bottom: 18px;
+  object-fit: contain;
+}
+.tile .input-port {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 14px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: center;
+  opacity: 0.7;
+}
 .tile-youtube .face.no-thumb { background: linear-gradient(150deg, #3a1d24 0%, #15090c 100%); }
 .tile .play {
   position: absolute;

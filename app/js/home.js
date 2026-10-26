@@ -79,6 +79,7 @@
   var storage = null;
   var hidden = ls.get('gh.hidden') || [];
   var appOrder = ls.get('gh.appOrder') || [];
+  var inputOrder = ls.get('gh.inputOrder') || [];
   var ytMode = ls.get('gh.ytMode') || cfg.youtubeMode;
   if (YT_MODES.indexOf(ytMode) < 0) ytMode = 'payload';
 
@@ -150,6 +151,16 @@
     return keys;
   }
 
+  // HDMI inputs from config.js, in the order chosen with Move left/right.
+  function orderedInputs() {
+    var list = (cfg.inputs || []).slice();
+    return list.sort(function (a, b) {
+      var x = inputOrder.indexOf('in:' + a.hdmi);
+      var y = inputOrder.indexOf('in:' + b.hdmi);
+      return (x < 0 ? list.length + list.indexOf(a) : x) - (y < 0 ? list.length + list.indexOf(b) : y);
+    });
+  }
+
   function buildItems() {
     var list = [];
     orderedAppKeys().forEach(function (k) {
@@ -160,6 +171,11 @@
       list.push({ kind: 'app', key: 'app:' + k, appKey: k, label: defByKey[k].label, id: a.id,
         storeId: defByKey[k].storeId,
         icon: defByKey[k].icon === false ? null : (defByKey[k].icon || P.iconUrl(a.iconPath)) });
+    });
+    orderedInputs().forEach(function (inp) {
+      var k = 'in:' + inp.hdmi;
+      if (photoService && hidden.indexOf(k) >= 0) return;    // as for apps
+      list.push({ kind: 'input', key: k, appKey: k, label: inp.label, hdmi: inp.hdmi, icon: inp.icon || null });
     });
     if (!photoService) return list;
     shortcuts.forEach(function (s) {
@@ -292,6 +308,18 @@
         fail();
       }
       face.appendChild(div('play'));
+    } else if (it.kind === 'input') {
+      if (it.icon) {
+        img = new Image();
+        img.className = 'input-icon';
+        img.alt = '';
+        img.onerror = function () { img.remove(); face.insertBefore(div('name-fallback', it.label), face.firstChild); };
+        img.src = it.icon;
+        face.appendChild(img);
+      } else {
+        face.appendChild(div('name-fallback', it.label));
+      }
+      face.appendChild(div('input-port', 'HDMI ' + it.hdmi));
     } else {
       face.appendChild(plusGlyph());
     }
@@ -416,6 +444,7 @@
     var viaSmartHub = it.kind === 'app' && smartHubLaunch;
     if (viaSmartHub && !cfg.preview) setLaunching(true);
     if (it.kind === 'app') p = P.launchApp(it.id, viaSmartHub ? it.storeId : null);
+    else if (it.kind === 'input') p = P.switchInput(it.hdmi);
     else if (it.kind === 'web') p = P.openUrl(it.url);
     else p = P.openYouTube(it, ytMode);
     p.then(function (how) {
@@ -430,7 +459,8 @@
 
   // ---------- long-press menu ----------
   function groupOf(it) {
-    return items.filter(function (x) { return it.kind === 'app' ? x.kind === 'app' : (x.kind === 'web' || x.kind === 'youtube'); });
+    if (it.kind === 'app' || it.kind === 'input') return items.filter(function (x) { return x.kind === it.kind; });
+    return items.filter(function (x) { return x.kind === 'web' || x.kind === 'youtube'; });
   }
 
   function openMenu() {
@@ -441,9 +471,9 @@
     menuItems = [
       { label: 'Move left', disabled: gi <= 0, run: function () { moveItem(it, -1); } },
       { label: 'Move right', disabled: gi >= group.length - 1, run: function () { moveItem(it, 1); } },
-      it.kind !== 'app' ? { label: 'Remove', run: function () { removeShortcut(it); } }
+      it.kind === 'web' || it.kind === 'youtube' ? { label: 'Remove', run: function () { removeShortcut(it); } }
         : photoService ? { label: 'Hide', run: function () { hideApp(it); } }
-        : null,                           // no + to bring a hidden app back
+        : null,                           // apps and inputs: no + to bring them back
       { label: 'Cancel', run: function () {} }
     ].filter(Boolean);
     menuFocus = 0;
@@ -486,6 +516,14 @@
       var full = orderedAppKeys().filter(function (k) { return keys.indexOf(k) < 0; });
       appOrder = keys.concat(full);
       ls.set('gh.appOrder', appOrder);
+      rebuildDock(it.key);
+      return;
+    }
+    if (it.kind === 'input') {
+      var ins = group.map(function (x) { return x.key; });
+      var u = ins[gi]; ins[gi] = ins[gj]; ins[gj] = u;
+      inputOrder = ins;
+      ls.set('gh.inputOrder', inputOrder);
       rebuildDock(it.key);
       return;
     }

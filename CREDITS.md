@@ -26,6 +26,11 @@ Commons. Each licence was checked on its file page. Thank you to the photographe
 Weather data by [Open-Meteo](https://open-meteo.com/), licensed under
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (credited on screen).
 
+## HDMI inputs
+
+The input switching in `app/js/platform.js` (`switchInput`) is ported from
+[Arn0](https://github.com/NelsonEU/arn0-tv)'s `inputs.js`, MIT licence.
+
 ## Trademarks
 
 Samsung, Tizen, Smart Hub, Apple, Apple TV, iPhone, YouTube, Netflix, Prime Video, Disney+ and other names

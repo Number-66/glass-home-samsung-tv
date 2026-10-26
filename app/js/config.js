@@ -102,6 +102,12 @@
         names: ['^disney plus$', '\\bdisney plus\\b', '^disney$'] },
       { key: 'browser', label: 'Internet', ids: ['org.tizen.browser'],
         names: ['^internet$', '^browser$'] }
-    ]
+    ],
+
+    // HDMI inputs on the dock, after the apps. `hdmi` is the port number; OK
+    // switches the TV to it and opens Samsung's TV viewer full screen.
+    // `icon`: optional, a path under app/; without it the tile shows `label`.
+    // e.g. { hdmi: 1, label: 'Games console', icon: 'img/inputs/console.png' }
+    inputs: []
   };
 }());

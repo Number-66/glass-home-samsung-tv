@@ -174,7 +174,8 @@ node dev/lint-node12.js    # service code stays within the Node 12 API
 
 Preview options: `?preview=1`, `?api=…`, `?focus=N`, `?bg=nature-05.jpg`,
 `?panel=1`, `?menu=1`, `?still=1`, `?wx=mock` (sample weather), `?idle=MS`
-(screensaver delay), `?night=1`.
+(screensaver delay), `?night=1`, `?inputs=1` (two sample HDMI tiles),
+`?photoService=0`.
 
 The dev tools and image scripts use macOS's `sips`; the app itself has no
 platform dependency.

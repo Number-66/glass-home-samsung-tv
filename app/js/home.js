@@ -151,14 +151,20 @@
     return keys;
   }
 
-  // HDMI inputs from config.js, in the order chosen with Move left/right.
+  // HDMI inputs from config.js, in the order chosen with Move left/right;
+  // inputs not moved yet follow, in config order. (?inputs=1 shows two sample
+  // inputs in preview.)
+  var inputDefs = cfg.preview && Q.inputs === '1'
+    ? [{ hdmi: 2, label: 'Games console' }, { hdmi: 3, label: 'Blu-ray' }]
+    : (cfg.inputs || []);
   function orderedInputs() {
-    var list = (cfg.inputs || []).slice();
-    return list.sort(function (a, b) {
-      var x = inputOrder.indexOf('in:' + a.hdmi);
-      var y = inputOrder.indexOf('in:' + b.hdmi);
-      return (x < 0 ? list.length + list.indexOf(a) : x) - (y < 0 ? list.length + list.indexOf(b) : y);
-    });
+    // Ranked from the unsorted list: older engines sort in place, so indexOf
+    // on the array being sorted can move under the comparator.
+    function rank(inp) {
+      var i = inputOrder.indexOf('in:' + inp.hdmi);
+      return i < 0 ? inputOrder.length + inputDefs.indexOf(inp) : i;
+    }
+    return inputDefs.slice().sort(function (a, b) { return rank(a) - rank(b); });
   }
 
   function buildItems() {

@@ -215,6 +215,38 @@ async function tvState(p) {
     check('no photo service: no script errors', oldErrors.length === 0, oldErrors);
     await tvOld.close();
 
+    // HDMI input tiles (?inputs=1: 'Games console' on HDMI 2, 'Blu-ray' on HDMI 3).
+    const kinds = (p) => p.eval(`[...document.querySelectorAll('#dock-row .tile')].map((t) => t.className.replace('tile tile-', '').split(' ')[0])`);
+    const tvIn = await browser.newPage({ width: 1920, height: 1080 });
+    await tvIn.eval(`localStorage.removeItem('gh.inputOrder')`).catch(() => {});
+    await tvIn.goto(base + '&still=1&inputs=1&focus=6', 4500);   // the dock remembers focus, so set it
+    check('inputs: after the apps, before the shortcuts', JSON.stringify(await kinds(tvIn)) === JSON.stringify(['app', 'app', 'app', 'app', 'app', 'app', 'input', 'input', 'web', 'web', 'youtube', 'add']), await kinds(tvIn));
+    s = await tvState(tvIn);
+    check('inputs: in config order, with the port under the name', s.label === 'Games console' && /HDMI 2/.test(await tvIn.eval(`document.querySelector('#dock-row .tile.focused').textContent`)), s.label);
+    await tvIn.key(K.ENTER, { hold: 900 });
+    s = await tvState(tvIn);
+    check('inputs: menu has Move and Hide, not Remove', JSON.stringify(s.menuItems) === JSON.stringify(['Move left(x)', 'Move right*', 'Hide', 'Cancel']), s.menuItems);
+    await tvIn.key(K.ENTER);                // Move right
+    await sleep(300);
+    s = await tvState(tvIn);
+    check('inputs: Move right swaps the two inputs', s.label === 'Games console' && s.focus === 7, s);
+    await tvIn.goto(base + '&still=1&inputs=1&focus=6', 4500);
+    s = await tvState(tvIn);
+    check('inputs: the new order is kept after a restart', s.label === 'Blu-ray', s.label);
+    await tvIn.key(K.ENTER);
+    await sleep(400);
+    s = await tvState(tvIn);
+    check('OK on an input switches to it (preview toast)', /would open Blu-ray/.test(s.toast), s.toast);
+    await tvIn.goto(base + '&still=1&inputs=1&photoService=0&focus=6', 4500);
+    await tvIn.key(K.ENTER, { hold: 900 });
+    s = await tvState(tvIn);
+    check('inputs, no photo service: menu has no Hide or Remove', JSON.stringify(s.menuItems) === JSON.stringify(['Move left(x)', 'Move right*', 'Cancel']), s.menuItems);
+    await tvIn.key(K.BACK);
+    const inErrors = tvIn.errors.filter((e) => !/favicon\.ico/.test(e));
+    check('inputs: no script errors', inErrors.length === 0, inErrors);
+    await tvIn.eval(`localStorage.removeItem('gh.inputOrder')`);
+    await tvIn.close();
+
     // Screensaver (?idle shortens the delay) and evening dimming.
     const tvAmb = await browser.newPage({ width: 1920, height: 1080 });
     await tvAmb.goto(base + '&bg=nature-06.jpg&idle=1500&night=1', 3000);

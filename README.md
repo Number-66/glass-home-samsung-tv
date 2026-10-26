@@ -35,10 +35,9 @@ in [docs/screenshots/on-tv](docs/screenshots/on-tv/).
   Samsung developer certificate made for your TV. That needs a computer, about
   an hour the first time, and a free Samsung account. There is no ready-made
   download: a signed package only installs on the TV it was made for.
-- **Tested on one TV:** a 2023 Samsung QLED (Q70C) on Tizen 8. Other models
-  and years should be close but may differ. Reports welcome. On 2018 TVs
-  (Tizen 4) set `photoService: false` and `smartHubLaunch: true` (see
-  Settings).
+- **Reported working on Samsung TVs from 2018 to 2025** (Tizen 4 to 10): see
+  [Tested TVs](#tested-tvs). Reports welcome. On 2018 TVs (Tizen 4) set
+  `photoService: false` and `smartHubLaunch: true` (see Settings).
 - **A big OS upgrade can delete it.** Samsung's Tizen OS upgrades (for example
   to Tizen 9 / One UI Tizen) have removed sideloaded apps on other TVs. You can
   reinstall it the same way.
@@ -109,6 +108,24 @@ method, but this wasn't tested on a TV yet).
 `tizen.tvwindow.setSource`, then open Samsung's TV viewer
 (`org.tizen.tv-viewer`) so the input fills the screen. This needs the public
 `tv.window` privilege. Tested on a 2022 S95B (Tizen 6.5) with HDMI 4.
+
+## Tested TVs
+
+Reported by people running it. Thank you! To add yours, open an issue with the
+model, year and Tizen version.
+
+| TV | Year | Tizen | Notes | Report |
+|---|---|---|---|---|
+| Samsung S85F | 2025 | 10 | | [#8](https://github.com/victaphu/glass-home-samsung-tv/issues/8) |
+| Samsung Q70C | 2023 | 8 | the TV it was built on | |
+| Samsung S95B | 2022 | 6.5 | HDMI input tiles tested here | [#10](https://github.com/victaphu/glass-home-samsung-tv/pull/10) |
+| Samsung Q80A | 2021 | 6.0 | | [#9](https://github.com/victaphu/glass-home-samsung-tv/issues/9) |
+| Samsung QN90A | 2021 | 6.0 | needed the CSS fixes from #5, now included | [#4](https://github.com/victaphu/glass-home-samsung-tv/issues/4) |
+| Samsung TU8000 | 2020 | 5.5 | photo service included | [#3](https://github.com/victaphu/glass-home-samsung-tv/pull/3) |
+| Samsung NU6900 | 2018 | 4.0 | with `photoService: false` and `smartHubLaunch: true` | [#2](https://github.com/victaphu/glass-home-samsung-tv/issues/2) |
+
+A 2017 MU7000 (Tizen 3.0) also runs it with two changes that aren't in this
+repository yet ([#6](https://github.com/victaphu/glass-home-samsung-tv/issues/6)).
 
 ## How it works
 

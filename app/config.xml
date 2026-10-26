@@ -27,6 +27,8 @@
     <tizen:privilege name="http://tizen.org/privilege/application.launch"/>
     <tizen:privilege name="http://tizen.org/privilege/application.info"/>
     <tizen:privilege name="http://tizen.org/privilege/tv.inputdevice"/>
+    <!-- HDMI input tiles on the dock (tizen.tvwindow.setSource). Public level. -->
+    <tizen:privilege name="http://tizen.org/privilege/tv.window"/>
 
     <tizen:profile name="tv-samsung"/>
     <tizen:metadata key="http://samsung.com/tv/metadata/multitasking.support" value="true"/>

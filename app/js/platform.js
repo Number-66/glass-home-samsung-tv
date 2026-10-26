@@ -176,6 +176,29 @@
     });
   };
 
+  // Switches the TV to HDMI port n, then opens Samsung's TV viewer so the
+  // input fills the screen (Arn0's 'switch+viewer', ported from its inputs.js).
+  // Needs the tv.window privilege (public level).
+  P.switchInput = function (n) {
+    if (!tz) return previewLaunch('HDMI ' + n);
+    return new Promise(function (resolve, reject) {
+      try {
+        tz.systeminfo.getPropertyValue('VIDEOSOURCE', function (info) {
+          var all = (info.connected || []).concat(info.disconnected || []);
+          var src = null;
+          for (var i = 0; i < all.length; i++) if (all[i].type === 'HDMI' && all[i].number === n) { src = all[i]; break; }
+          if (!src) { reject(new Error('HDMI ' + n + ' is not reported by the TV')); return; }
+          try {
+            tz.tvwindow.setSource(src, function () {
+              // The input is already switched; the viewer only makes it full screen.
+              P.launchApp('org.tizen.tv-viewer').then(function () { resolve('input'); }, function () { resolve('input'); });
+            }, reject, 'MAIN');
+          } catch (e) { reject(e); }
+        }, reject);
+      } catch (e) { reject(e); }
+    });
+  };
+
   // Starts this package's web service. If it is already running the request
   // goes to its onRequest, which is harmless.
   P.startService = function () {

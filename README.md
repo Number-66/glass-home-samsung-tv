@@ -63,6 +63,7 @@ All in [`app/js/config.js`](app/js/config.js):
 | Setting | What it does |
 |---|---|
 | `apps` | The dock apps, in order. Each is found by its Tizen app ID, then by name. Remove what you don't have. `icon: false` shows a plain name tile. |
+| `inputs` | HDMI ports as dock tiles, after the apps: `{ hdmi: 4, label: 'Games console' }`, optionally with an `icon` path under `app/`. Empty by default. |
 | `weather` | Off until you set `enabled: true`, `latitude` and `longitude` (`place` is the label shown under the forecast; `temperatureUnit: 'fahrenheit'` for °F). |
 | `locale` | Date and time format, e.g. `'en-GB'`; empty uses the TV's. |
 | `ambient` | Screensaver delay. |
@@ -79,8 +80,8 @@ Your own logo: `scripts/use-logo.sh path/to/logo.png` (square, ideally 1024 x
 | Remote | What happens |
 |---|---|
 | Left / Right | move along the dock |
-| OK | open the app, website or video |
-| Hold OK | Move left, Move right, Remove (shortcuts) or Hide (apps), Cancel |
+| OK | open the app, website or video, or switch to the HDMI input |
+| Hold OK | Move left, Move right, Remove (shortcuts) or Hide (apps and inputs), Cancel |
 | Back | closes the menu or the panel; does nothing on the home screen |
 | OK on **+** | the website address and password; New password; show hidden apps |
 
@@ -99,6 +100,11 @@ watch URL, the PAYLOAD form, and both, if yours behaves differently.
 
 **Websites** open in Samsung's own browser (the code follows Samsung's documented
 method, but this wasn't tested on a TV yet).
+
+**HDMI inputs** (the `inputs` setting) switch the TV with
+`tizen.tvwindow.setSource`, then open Samsung's TV viewer
+(`org.tizen.tv-viewer`) so the input fills the screen. This needs the public
+`tv.window` privilege. Tested on a 2022 S95B (Tizen 6.5) with HDMI 4.
 
 ## How it works
 

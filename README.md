@@ -193,6 +193,9 @@ node dev/test-backdrop.js  # photo rotation
 node dev/lint-node12.js    # service code stays within the Node 12 API
 ```
 
+GitHub runs all of these on every pull request and push to `main` (macOS,
+Node 22): [`.github/workflows/test.yml`](.github/workflows/test.yml).
+
 Preview options: `?preview=1`, `?api=…`, `?focus=N`, `?bg=nature-05.jpg`,
 `?panel=1`, `?menu=1`, `?still=1`, `?wx=mock` (sample weather), `?idle=MS`
 (screensaver delay), `?night=1`, `?inputs=1` (two sample HDMI tiles),

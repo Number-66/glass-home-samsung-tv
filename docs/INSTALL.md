@@ -51,7 +51,7 @@ node ~/tizen-agent-skills/tizen-sdk-skills/common/lib/cli/sdk-init-cli.js ~/tize
 ## 4. Fill in your settings
 
 ```sh
-git clone <this repository> glass-home && cd glass-home
+git clone https://github.com/victaphu/glass-home-samsung-tv.git glass-home && cd glass-home
 cp scripts/tizen-env.example.sh scripts/tizen-env.sh
 ```
 

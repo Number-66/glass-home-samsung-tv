@@ -26,11 +26,15 @@ in [docs/screenshots/on-tv](docs/screenshots/on-tv/).
 
 ## Read this first
 
-- **It does not replace Samsung's Home screen.** No app can. The Home button
-  still opens Smart Hub. What works: pin Glass Home first on the Home row, turn
-  **Start with Smart Hub Home** off and **Autorun Last App** on, and the TV
-  starts in Glass Home. (Autorun Last App reopens the *last* app, so turn the
-  TV off from Glass Home if you want to come back to it.)
+- **It does not replace Samsung's Home screen.** No app can on its own: the
+  Home button still opens Smart Hub. What works: pin Glass Home first on the
+  Home row, turn **Start with Smart Hub Home** off and **Autorun Last App** on,
+  and the TV starts in Glass Home. (Autorun Last App reopens the *last* app, so
+  turn the TV off from Glass Home if you want to come back to it.) Two other
+  projects, [CleanFrame](https://github.com/nthnclrk/CleanFrame) and
+  [Arn0](https://github.com/NelsonEU/arn0-tv), do change what Home opens, by
+  rewriting undocumented TV settings from Developer Mode. Each was tested on
+  one TV, and a firmware update can undo or break it.
 - **You install it yourself** in the TV's Developer Mode, signed with a free
   Samsung developer certificate made for your TV. That needs a computer, about
   an hour the first time, and a free Samsung account. There is no ready-made
@@ -111,8 +115,8 @@ method, but this wasn't tested on a TV yet).
 
 ## Tested TVs
 
-Reported by people running it. Thank you! To add yours, open an issue with the
-model, year and Tizen version.
+Reported by people running it. Thank you! To add yours, fill in a
+[TV report](https://github.com/victaphu/glass-home-samsung-tv/issues/new?template=tv-report.yml).
 
 | TV | Year | Tizen | Notes | Report |
 |---|---|---|---|---|
